@@ -1,12 +1,12 @@
-import { Image, StyleSheet, Platform, View } from 'react-native';
+import { StyleSheet, SafeAreaView } from 'react-native';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { Link, Stack } from 'expo-router';
 import { useContext } from 'react';
 import { PostsContext } from './_layout';
+import { FlatList, RefreshControl } from 'react-native';
+import { Post } from '@/types/posts';
+import PostCard from '@/components/PostCard';
+import { ThemedView } from '@/components/ThemedView';
 
 export default function PostsScreen() {
   const {
@@ -19,81 +19,65 @@ export default function PostsScreen() {
   } = useContext(PostsContext);
 
   if (postsIsLoading) {
-    return (<View>
+    return (<ThemedView>
       <ThemedText>posts is Loading...</ThemedText>
-    </View>)
+    </ThemedView>)
   }
   if (postsIsError) {
-    return (<View>
+    return (<ThemedView>
       <ThemedText>posts has Error</ThemedText>
-    </View>)
+    </ThemedView>)
   }
 
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <Link href='/(posts)/222'>
-          <ThemedText type="title">Welcome! Bro</ThemedText>
-        </Link>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-      <Stack.Screen options={{
-        headerTitle: 'Breadfast News',
 
-      }} />
-    </ParallaxScrollView>
+    <ThemedView style={styles.container}>
+      <SafeAreaView style={styles.container}>
+
+        {postsData.length > 0 ? (
+          <FlatList
+            data={postsData}
+            renderItem={({ item }: { item: Post }) => <PostCard {...item} />}
+            keyExtractor={(item: Post) => item.id.toString()}
+            contentContainerStyle={styles.list}
+            onRefresh={postsRefetch}
+            refreshing={postsIsFetching}
+            refreshControl={
+              <RefreshControl
+                refreshing={postsIsFetching}
+                onRefresh={postsRefetch}
+                colors={["white", "#aa0082"]}
+                tintColor="#aa0082"
+                progressBackgroundColor={"#aa0082"}
+              >
+                <ThemedText style={{ flex: 1, width: '100%', justifyContent: 'center', textAlign: 'center', marginTop: 2 }}>Pull to Refresh</ThemedText>
+              </RefreshControl>
+            }
+          />
+        ) : (
+          <ThemedView>
+            <ThemedText style={{ flex: 1, width: '100%', justifyContent: 'center', textAlign: 'center', marginTop: 2 }}>Pull to Refresh</ThemedText>
+          </ThemedView>
+        )
+        }
+      </SafeAreaView>
+    </ThemedView>
+
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  list: {
+    flex: 1,
+    gap: 2,
+    paddingLeft: 8,
+    paddingRight: 8,
+    paddingTop: 16,
+    paddingBottom: 16,
+    alignItems: 'stretch',
+    justifyContent: 'flex-start'
   },
 });
