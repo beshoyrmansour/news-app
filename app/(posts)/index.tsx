@@ -11,6 +11,7 @@ import { HelloWave } from '@/components/HelloWave';
 import { Stack } from 'expo-router';
 import images from "../../constants/images";
 import { useThemeColor } from '@/hooks/useThemeColor';
+import Loader from '@/components/loader';
 
 export default function PostsScreen() {
   const {
@@ -21,10 +22,11 @@ export default function PostsScreen() {
     postsError,
     postsIsError,
   } = useContext(PostsContext);
+  const brandColorThemeColor = useThemeColor({ light: '', dark: '' }, 'tint');
 
   if (postsIsLoading) {
     return (<ThemedView>
-      <ThemedText>posts is Loading...</ThemedText>
+      <Loader isLoading={postsIsLoading} />
     </ThemedView>)
   }
   if (postsIsError) {
@@ -49,9 +51,9 @@ export default function PostsScreen() {
               <RefreshControl
                 refreshing={postsIsFetching}
                 onRefresh={postsRefetch}
-                colors={["white", "#aa0082"]}
-                tintColor="#aa0082"
-                progressBackgroundColor={"#aa0082"}
+                colors={["white", brandColorThemeColor]}
+                tintColor={brandColorThemeColor}
+                progressBackgroundColor={brandColorThemeColor}
               >
                 <ThemedText style={{ flex: 1, width: '100%', justifyContent: 'center', textAlign: 'center', marginTop: 2 }}>Pull to Refresh <HelloWave /></ThemedText>
               </RefreshControl>
@@ -64,14 +66,14 @@ export default function PostsScreen() {
         )
         }
       </SafeAreaView>
-      <Stack.Screen 
-      options={{
-        headerTitle: () => (
-          <Image source={images.largeLogo} resizeMode="contain" style={{
-            height:27,
-            width:220
-          }} />)
-      }} />
+      <Stack.Screen
+        options={{
+          headerTitle: () => (
+            <Image source={images.largeLogo} resizeMode="contain" style={{
+              height: 27,
+              width: 70
+            }} />)
+        }} />
     </ThemedView>
 
   );

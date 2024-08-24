@@ -13,6 +13,7 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 type Props = Post;
 const PostCard = ({ body, id, title }: Props) => {
   const iconThemeColor = useThemeColor({ light: '', dark: '' }, 'tint');
+  const borderThemeColor = useThemeColor({ light: '#A90082', dark: '#ff55d7' }, 'border');
   return (
     <TouchableOpacity
       style={{
@@ -23,15 +24,13 @@ const PostCard = ({ body, id, title }: Props) => {
         router.push(`/(posts)/${id}`);
       }}
     >
-      <ThemedView style={styles.card}>
-        <ThemedView style={styles.cardLikeWrapper}>
-        </ThemedView>
-        <ThemedView style={styles.cardBody}>
-          <ThemedView style={styles.cardHeader}>
-            <ThemedView>
-              <ThemedText type="subtitle">{title}</ThemedText>
-              <ThemedText numberOfLines={2} ellipsizeMode='tail' type="defaultSemiBold">{body}</ThemedText>
-            </ThemedView>
+      <ThemedView style={{ ...styles.card, }}>
+        <ThemedView style={{ ...styles.cardBody, borderBottomColor: borderThemeColor }}>
+          <ThemedView style={styles.cardText}>
+            <ThemedText type="subtitle">{title}</ThemedText>
+            <ThemedText numberOfLines={2} ellipsizeMode='tail' type="defaultSemiBold">{body}</ThemedText>
+          </ThemedView>
+          <ThemedView style={styles.cardIcon}>
             <FontAwesome
               color={iconThemeColor}
               name="chevron-right"
@@ -51,23 +50,23 @@ export default PostCard;
 const styles = StyleSheet.create({
   card: {
     position: "relative",
-    marginBottom: 16,
+    margin: 12,
+    //marginBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#000000',
+    
   },
-  cardLikeWrapper: {
-    position: "absolute",
-    zIndex: 1,
-    top: 12,
-    right: 12,
-  },
+  
   cardBody: {
-    padding: 12,
-  },
-  cardHeader: {
+    paddingBottom: 16,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    gap: 2,
+    gap: 6,
   },
+  cardText: {
+    flex: 1
+  },
+  cardIcon: {
+    width: 33
+  }
 });

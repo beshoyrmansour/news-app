@@ -13,6 +13,7 @@ import { FlatList } from 'react-native';
 import PostComment from '@/components/posts/PostComment';
 import EmptyState from '@/components/EmptyState';
 import { useThemeColor } from '@/hooks/useThemeColor';
+import Loader from '@/components/loader';
 
 export const CommentsContext = createContext<UseCommentsType>(initalCommentsContextValues)
 
@@ -41,9 +42,9 @@ const PostDetailsPage = () => {
   }, [postId]);
 
   if (useCommentsData.commentsIsLoading) {
-    return (<ThemedView>
-      <ThemedText>posts is Loading...</ThemedText>
-    </ThemedView>)
+    return (
+      <Loader isLoading={useCommentsData.commentsIsLoading} />
+    )
   }
   if (useCommentsData.commentsIsError) {
     return (<ThemedView>
