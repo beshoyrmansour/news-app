@@ -1,32 +1,30 @@
-import { Image, RefreshControl, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { Image, RefreshControl, StyleSheet, Text, View } from 'react-native'
 import React, { createContext, useContext, useEffect } from 'react'
 import { useLocalSearchParams } from 'expo-router';
 import useComments from '@/hooks/useComments';
 import { Comment, initalCommentsContextValues, UseCommentsType } from '@/types/comments';
 
-import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { Link, Stack } from 'expo-router';
+import { Stack } from 'expo-router';
 import { PostsContext } from './_layout';
 import { FlatList } from 'react-native';
-import PostComment from '@/components/PostComment';
+import PostComment from '@/components/posts/PostComment';
 import EmptyState from '@/components/EmptyState';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
 export const CommentsContext = createContext<UseCommentsType>(initalCommentsContextValues)
 
 const PostDetailsPage = () => {
   const { postId } = useLocalSearchParams<{ postId: string }>();
   const useCommentsData = useComments(postId);
+  const backgroundThemeColor = useThemeColor({ light: '', dark: '' }, 'background');
 
   const {
     postData,
-    postIsLoading,
     postRefetch,
     postIsFetching,
-    postError,
-    postIsError,
     updateCurrentPostId,
   } = useContext(PostsContext);
 
@@ -43,31 +41,36 @@ const PostDetailsPage = () => {
   }, [postId]);
 
   if (useCommentsData.commentsIsLoading) {
-    return (<View>
+    return (<ThemedView>
       <ThemedText>posts is Loading...</ThemedText>
-    </View>)
+    </ThemedView>)
   }
   if (useCommentsData.commentsIsError) {
-    return (<View>
+    return (<ThemedView>
       <ThemedText>posts has Error</ThemedText>
-    </View>)
+    </ThemedView>)
   }
   return (
     <CommentsContext.Provider value={{ ...useCommentsData }}>
       <FlatList
+        style={{
+          backgroundColor: backgroundThemeColor,
+        }}
         data={useCommentsData.commentsData}
         renderItem={({ item }: { item: Comment }) => (<PostComment {...item} />)}
         keyExtractor={(item: Comment) => item.id.toString()}
         ListHeaderComponent={() => (
-          <View>
+          <ThemedView>
             <ParallaxScrollView
-              headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
+              headerBackgroundColor={{ light: backgroundThemeColor, dark: backgroundThemeColor }}
               headerImage={
                 <Image
+                  style={{ flex: 1 }}
                   source={{
                     uri: postData?.cover_url
+                      ??
+                      "https://plus.unsplash.com/premium_photo-1688561384438-bfa9273e2c00?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bmV3c3xlbnwwfHwwfHx8MA%3D%3D",
                   }}
-                  style={styles.reactLogo}
                 />
               }>
               <ThemedView style={styles.titleContainer}>
@@ -79,8 +82,11 @@ const PostDetailsPage = () => {
                 </ThemedText>
               </ThemedView>
             </ParallaxScrollView>
-            <ThemedText type='subtitle'>Comments</ThemedText>
-          </View>
+            <ThemedView style={styles.commentsContainer}>
+              <ThemedText type='subtitle'>Comments</ThemedText>
+              <ThemedText type='defaultSemiBold'>({useCommentsData.commentsData.length})</ThemedText>
+            </ThemedView>
+          </ThemedView>
         )}
         refreshControl={
           <RefreshControl refreshing={postIsFetching} onRefresh={onRefresh} />
@@ -94,7 +100,17 @@ const PostDetailsPage = () => {
       />
 
       <Stack.Screen options={{
-        headerTitle: postData?.title,
+        headerTitleStyle: {
+          fontFamily: 'Faro-BoldLucky'
+        },
+        headerTitle: () => (<ThemedText
+          numberOfLines={1}
+          ellipsizeMode='tail'
+          style={{
+            maxWidth: 300
+          }}>
+          {postData?.title}
+        </ThemedText>)
       }} />
     </CommentsContext.Provider>
   )
@@ -113,11 +129,11 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 8,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
+  commentsContainer: {
+    paddingStart: 22,
+    paddingEnd: 22,
+    marginBottom: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  }
 });

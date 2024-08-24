@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Comment } from "@/types/comments";
-import { ThemedView } from "./ThemedView";
-import { ThemedText } from "./ThemedText";
+import { ThemedView } from "../ThemedView";
+import { ThemedText } from "../ThemedText";
 type Props = Comment
 const PostComment = ({
   body,
