@@ -1,5 +1,52 @@
 # Welcome to your Expo app 👋
 
+This app is an assignment for a senior mobile developer using React native, I implemented an architecture that should be closer to a real-world application
+
+# Lets take a quick walk throw the file structure 
+
+
+    .
+    ├── api             # this handles the API requests, in our case I used Axios but in future we can add more middleware like GraphQL for example
+    │   ├── axios       # exports the axios instance with the custom configrations for the requests and response 
+    │   ├── index       # Export the general 'callAPI' function which serves as an abstraction layer so we can chnge axios any time and by simply change this function or add more options to it
+    │   ├── types       # Contains the types that are required for this folder
+    ├── services        # This folder have the Api calls that need for each app module its an abstraction over the API layer 
+    │   ├── CommentsService
+    │   ├── PostsService  
+    │   └── ...
+    ├── hooks           # 
+    │   ├── useColorScheme     # Export 'useColorScheme' from 'react-native' for potential future changes and improved web compatibility.
+    │   ├── useColorScheme.web #  he default React Native styling doesn't support server rendering, so this file for webview 
+    │   ├── useComments        # This hook handles the logic for the "CommentsContext", Utilizing @tanstack/react-query to handle data fetching status.
+    │   ├── usePosts           # This hook handles the logic for the "PostsContext", Utilizing @tanstack/react-query to handle data fetching status 
+    │   ├── useThemeColor      # 
+    │   └── ...
+    ├── app             # 
+    │   ├── (posts)     # 
+    │   │   ├── _layout # 
+    │   │   ├── [postId]# 
+    │   │   └── index   # 
+    │   ├── _layout     # 
+    │   └── ...
+    ├── ...     
+    ├── constants       # 
+    │   ├── (posts)     # 
+    │   ├── (posts)     #  
+    │   └── ...
+
+    ├── hooks           # 
+    │   ├── (posts)     # 
+    │   ├── (posts)     #  
+    │   └── ...
+    └── ...
+    ├── .env           # Tools and utilities
+    ├── Env.ts
+    └── Env.d.ts
+
+
+
+
+---
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
 ## Get started
