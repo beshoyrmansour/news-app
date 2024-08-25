@@ -66,6 +66,7 @@ You can start developing by editing the files inside the **app** directory. This
   * [posts](.\news-app\components\posts) => Components used in posts screens
     * [PostCard.tsx](.\news-app\components\posts/PostCard.tsx) => 
     * [PostComment.tsx](.\news-app\components\posts/PostComment.tsx) => 
+    * [PostUser.tsx](.\news-app\components\posts/PostUser.tsx) => Handle post User data fetching by using post ID
   * [ThemedText.tsx](.\news-app\components\ThemedText.tsx) => Extends Text component to apply theme styles with extra options
   * [ThemedView.tsx](.\news-app\components\ThemedView.tsx) => Extends View component to apply theme styles with extra options
 * [constants/](.\news-app\constants) => Make our life easier when we decide to change things in the future
@@ -75,6 +76,7 @@ You can start developing by editing the files inside the **app** directory. This
 * [types/](.\news-app\types) All systems modules will declare its types here 
   * [comments.ts](.\news-app\types\comments.ts)
   * [posts.ts](.\news-app\types\posts.ts)
+  * [user.ts](.\news-app\types\user.ts)
 
 
   

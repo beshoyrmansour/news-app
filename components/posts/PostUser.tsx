@@ -7,7 +7,9 @@ import { ThemedText } from '../ThemedText';
 import { useThemeColor } from '@/hooks/useThemeColor';
 
 type Props = { postId: string }
-
+/***
+ * this Component Is responsible for finding the post user data by etheir finding it in users list or fetch it form backend
+ */
 const PostUser = ({ postId }: Props) => {
   const { usersData, getUserById } = useContext(UsersContext);
   const userNameThemeColor = useThemeColor({ light: '', dark: '' }, 'tint');
@@ -29,8 +31,6 @@ const PostUser = ({ postId }: Props) => {
         })
       }
     }
-
-
   }, [])
 
 
