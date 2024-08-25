@@ -1,5 +1,5 @@
 import { Post } from "@/types/posts";
-import React from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
@@ -9,11 +9,27 @@ import { router } from "expo-router";
 import { ThemedText } from "../ThemedText";
 import { ThemedView } from "../ThemedView";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { UsersContext } from "@/app/(posts)/_layout";
+import { User } from "@/types/user";
+import { GetUserData } from "@/services/UsersService";
 
 type Props = Post;
-const PostCard = ({ body, id, title }: Props) => {
+const PostCard = ({ body, id, title, userId }: Props) => {
   const iconThemeColor = useThemeColor({ light: '', dark: '' }, 'tint');
   const borderThemeColor = useThemeColor({ light: '#A90082', dark: '#ff55d7' }, 'border');
+  const { usersData, getUserById } = useContext(UsersContext);
+  const [user, setUser] = useState(usersData[userId])
+  useEffect(() => {
+
+    if (!usersData[userId]) {
+      getUserById(id).then(user => {
+        setUser(user);
+      })
+    }
+
+  }, [])
+
+
   return (
     <TouchableOpacity
       style={{
@@ -24,11 +40,16 @@ const PostCard = ({ body, id, title }: Props) => {
         router.push(`/(posts)/${id}`);
       }}
     >
-      <ThemedView style={{ ...styles.card, }}>
-        <ThemedView style={{ ...styles.cardBody, borderBottomColor: borderThemeColor }}>
+      <ThemedView style={{ ...styles.card, borderBottomColor: borderThemeColor }}>
+
+        <ThemedView style={{ ...styles.cardBody }}>
           <ThemedView style={styles.cardText}>
             <ThemedText type="subtitle">{title}</ThemedText>
-            <ThemedText numberOfLines={2} ellipsizeMode='tail' type="defaultSemiBold">{body}</ThemedText>
+            <ThemedView style={{ paddingBottom: 6,  paddingTop:6}}>
+              <ThemedText type="defaultSemiBold" style={{ color: iconThemeColor }}>{user?.name}</ThemedText>
+              <ThemedText type="link">@ {user?.username}</ThemedText>
+            </ThemedView>
+            <ThemedText numberOfLines={2} ellipsizeMode='tail' type="default">{body}</ThemedText>
           </ThemedView>
           <ThemedView style={styles.cardIcon}>
             <FontAwesome
@@ -40,6 +61,7 @@ const PostCard = ({ body, id, title }: Props) => {
             />
           </ThemedView>
         </ThemedView>
+
       </ThemedView>
     </TouchableOpacity>
   );
@@ -53,13 +75,13 @@ const styles = StyleSheet.create({
     margin: 12,
     //marginBottom: 16,
     borderBottomWidth: 1,
-    
+
   },
-  
+
   cardBody: {
     paddingBottom: 16,
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "baseline",
     justifyContent: "space-between",
     gap: 6,
   },

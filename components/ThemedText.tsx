@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   default: {
     fontSize: 16,
     lineHeight: 24,
-    fontFamily:'Faro-BoldLucky'
+    fontFamily:'Faro-Lucky'
   },
   defaultSemiBold: {
     fontSize: 16,
@@ -54,12 +54,12 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    fontFamily: 'Faro-BoldLucky'
+    fontFamily: 'Faro-Lucky'
   },
   link: {
     lineHeight: 30,
     fontSize: 16,
     color: '#0a7ea4',
-    fontFamily: 'Faro-BoldLucky'
+    fontFamily: 'Faro-Lucky'
   },
 });

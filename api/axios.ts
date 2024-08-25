@@ -5,8 +5,8 @@ import Env from "../Env";
 // import i18n from "@i18next/i18n";
 
 const instance = axios.create({
-   baseURL: Env.BASE_URL,
-  //baseURL: Env.PACKUP_BASE_URL,
+  // baseURL: Env.BASE_URL,
+  baseURL: Env.PACKUP_BASE_URL,
   headers: {
     "Content-Type": "application/json",
     "Cache-Control": "no-cache",

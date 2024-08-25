@@ -83,7 +83,7 @@ const usePosts: () => UsePostsType = () => {
       setPosts([
         {
           id: 1571,
-          user_id: 3215,
+          userId: 3215,
           title:
             "Convoco concido accusamus triumphus crebro avarus supplanto timidus circumvenio aspicio solutio civis",
           body: "Avaritia infit valde. Alveus caries temporibus. Delicate pectus natus. Vesper patria adipiscor. Vapulu",
@@ -91,7 +91,7 @@ const usePosts: () => UsePostsType = () => {
         },
         {
           id: 1572,
-          user_id: 3215,
+          userId: 3215,
           title:
             "Convoco concido accusamus triumphus crebro avarus supplanto timidus circumvenio aspicio solutio civis",
           body: "Avaritia infit valde. Alveus caries temporibus. Delicate pectus natus. Vesper patria adipiscor. Vapulu",
@@ -100,7 +100,7 @@ const usePosts: () => UsePostsType = () => {
         },
         {
           id: 1573,
-          user_id: 3215,
+          userId: 3215,
           title:
             "Convoco concido accusamus triumphus crebro avarus supplanto timidus circumvenio aspicio solutio civis",
           body: "Avaritia infit valde. Alveus caries temporibus. Delicate pectus natus. Vesper patria adipiscor. Vapulu",
@@ -109,7 +109,7 @@ const usePosts: () => UsePostsType = () => {
         },
         {
           id: 1574,
-          user_id: 3215,
+          userId: 3215,
           title:
             "Convoco concido accusamus triumphus crebro avarus supplanto timidus circumvenio aspicio solutio civis",
           body: "Avaritia infit valde. Alveus caries temporibus. Delicate pectus natus. Vesper patria adipiscor. Vapulu",
@@ -124,7 +124,7 @@ const usePosts: () => UsePostsType = () => {
       if (postIsError) {
         setCurrentPost({
           id: 1574,
-          user_id: 3215,
+          userId: 3215,
           title:
             "Convoco concido accusamus triumphus crebro avarus supplanto timidus circumvenio aspicio solutio civis",
           body: "Avaritia infit valde. Alveus caries temporibus. Delicate pectus natus. Vesper patria adipiscor. Vapulu",

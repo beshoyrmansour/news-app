@@ -4,7 +4,7 @@ export type PostsData = AxiosResponse<Array<Post>, any> | undefined;
 export type PostData = AxiosResponse<Post, any> | undefined;
 export type Post = {
   id: number;
-  user_id: number;
+  userId: number;
   title: string;
   body: string;
   cover_url?: string;

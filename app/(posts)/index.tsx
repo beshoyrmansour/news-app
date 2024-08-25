@@ -2,7 +2,7 @@ import { StyleSheet, SafeAreaView, Image } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { useContext } from 'react';
-import { PostsContext } from './_layout';
+import { PostsContext, UsersContext } from './_layout';
 import { FlatList, RefreshControl } from 'react-native';
 import { Post } from '@/types/posts';
 import PostCard from '@/components/posts/PostCard';
@@ -20,10 +20,11 @@ export default function PostsScreen() {
     postsIsLoading,
     postsRefetch,
     postsIsFetching,
-    postsError,
     postsIsError,
   } = useContext(PostsContext);
   const brandColorThemeColor = useThemeColor({ light: '', dark: '' }, 'tint');
+  const { usersData } = useContext(UsersContext);
+
 
   if (postsIsLoading) {
     return (<ThemedView>
