@@ -21,6 +21,8 @@ const PostDetailsPage = () => {
   const { postId } = useLocalSearchParams<{ postId: string }>();
   const useCommentsData = useComments(postId);
   const backgroundThemeColor = useThemeColor({ light: '', dark: '' }, 'background');
+  const countThemeColor = useThemeColor({ light: '', dark: '' }, 'Highlight');
+  const tintThemeColor = useThemeColor({ light: '', dark: '' }, 'tint');
 
   const {
     postData,
@@ -85,7 +87,9 @@ const PostDetailsPage = () => {
             </ParallaxScrollView>
             <ThemedView style={styles.commentsContainer}>
               <ThemedText type='subtitle'>Comments</ThemedText>
-              <ThemedText type='defaultSemiBold'>({useCommentsData.commentsData.length})</ThemedText>
+              <ThemedText type='defaultSemiBold' style={{ color: countThemeColor }}>
+                ({useCommentsData.commentsData.length})
+              </ThemedText>
             </ThemedView>
           </ThemedView>
         )}
@@ -104,6 +108,7 @@ const PostDetailsPage = () => {
         headerTitleStyle: {
           fontFamily: 'Faro-BoldLucky'
         },
+        headerTintColor: tintThemeColor,
         headerTitle: () => (<ThemedText
           numberOfLines={1}
           ellipsizeMode='tail'

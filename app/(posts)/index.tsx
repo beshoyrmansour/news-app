@@ -12,6 +12,7 @@ import { Stack } from 'expo-router';
 import images from "../../constants/images";
 import { useThemeColor } from '@/hooks/useThemeColor';
 import Loader from '@/components/loader';
+import EmptyState from '@/components/EmptyState';
 
 export default function PostsScreen() {
   const {
@@ -58,6 +59,12 @@ export default function PostsScreen() {
                 <ThemedText style={{ flex: 1, width: '100%', justifyContent: 'center', textAlign: 'center', marginTop: 2 }}>Pull to Refresh <HelloWave /></ThemedText>
               </RefreshControl>
             }
+            ListEmptyComponent={() => (
+              <EmptyState
+                title="No Posts Found"
+                subtitle="No now posts yet"
+              />
+            )}
           />
         ) : (
           <ThemedView>
@@ -68,6 +75,11 @@ export default function PostsScreen() {
       </SafeAreaView>
       <Stack.Screen
         options={{
+          headerLargeTitle: true,
+          title: 'List',
+          headerTitleStyle: {
+            color: brandColorThemeColor
+          },
           headerTitle: () => (
             <Image source={images.largeLogo} resizeMode="contain" style={{
               height: 27,

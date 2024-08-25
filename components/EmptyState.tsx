@@ -1,24 +1,30 @@
 import { router } from "expo-router";
 import { View, Text, Image, StyleSheet } from "react-native";
+import { ThemedText } from "./ThemedText";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import images from "@/constants/images";
 
 type Props = {
   title: string;
   subtitle: string;
 }
 const EmptyState = ({ title, subtitle }: Props) => {
+  const titleThemeColor = useThemeColor({ light: '', dark: '' }, 'Highlight');
+
   return (
     <View style={
       styles.container
     } >
-      {/*<Image
+      <Image
         source={images.empty}
         resizeMode="contain"
-      />*/}
+        style={styles.image}
+      />
 
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.subtitle}>
+      <ThemedText type="subtitle" style={{ ...styles.title, color: titleThemeColor }}>{title}</ThemedText>
+      <ThemedText type="default" style={{ ...styles.subtitle, }}>
         {subtitle}
-      </Text>
+      </ThemedText>
 
       {/*<CustomButton
         title="Back to Explore"
@@ -36,14 +42,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingLeft: 24,
+    paddingRight: 24,
+    marginBottom: 48,
+    marginTop: 24
   },
   image: {
-    width: 270,
-    height: 216
+    width: '100%',
+    maxWidth:300,
+    height: 116,
   },
   title: {
+    marginBottom:4,
 
   },
   subtitle: {
