@@ -8,13 +8,13 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Stack } from 'expo-router';
-import { PostsContext, UsersContext } from './_layout';
+import { PostsContext } from './_layout';
 import { FlatList } from 'react-native';
 import PostComment from '@/components/posts/PostComment';
 import EmptyState from '@/components/EmptyState';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import Loader from '@/components/loader';
-import { User } from '@/types/user';
+import PostUser from '@/components/posts/PostUser';
 
 export const CommentsContext = createContext<UseCommentsType>(initalCommentsContextValues)
 
@@ -24,44 +24,14 @@ const PostDetailsPage = () => {
   const backgroundThemeColor = useThemeColor({ light: '', dark: '' }, 'background');
   const countThemeColor = useThemeColor({ light: '', dark: '' }, 'Highlight');
   const tintThemeColor = useThemeColor({ light: '', dark: '' }, 'tint');
-  const userNameThemeColor = useThemeColor({ light: '', dark: '' }, 'tint');
 
   const {
     postData,
-    postsData,
     postRefetch,
     postIsFetching,
     updateCurrentPostId,
   } = useContext(PostsContext);
 
-
-  const { usersData, getUserById } = useContext(UsersContext);
-  const [user, setUser] = useState<User | null>(postData ? usersData[postData.userId] : null)
-  useEffect(() => {
-
-    if (postData) {
-
-
-      getUserById(postData?.userId).then(user => {
-        setUser(user);
-      })
-    }
-    else {
-
-      const post = postsData.find(p => p.id.toString() === postId)
-      
-      if (post) {
-
-        setUser(usersData[post.userId]);
-
-        getUserById(post?.userId).then(user => {
-          setUser(user);
-        })
-      }
-    }
-
-
-  }, [])
 
   const onRefresh = () => {
     postRefetch();
@@ -110,10 +80,7 @@ const PostDetailsPage = () => {
               <ThemedView style={styles.titleContainer}>
                 <ThemedText type="title">{postData?.title}</ThemedText>
               </ThemedView>
-              {user && <ThemedView style={{ paddingBottom: 6, paddingTop: 6 }}>
-                <ThemedText type="defaultSemiBold" style={{ color: userNameThemeColor }}>{user?.name}</ThemedText>
-                <ThemedText type="link">@ {user?.username}</ThemedText>
-              </ThemedView>}
+              <PostUser postId={postId} />
               <ThemedView style={styles.container}>
                 <ThemedText>
                   {postData?.body}
